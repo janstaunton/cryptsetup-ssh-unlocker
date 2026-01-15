@@ -2,6 +2,7 @@
 
 import configparser
 import logging
+import asyncio
 
 import sys
 
@@ -40,7 +41,10 @@ def main():
             sys.exit(1)
 
     unlocker = ServerUnlocker([config[section] for section in config.sections()])
-    unlocker.run_forever()
+    try:
+        asyncio.run(unlocker.run())
+    except KeyboardInterrupt:
+        pass
 
 
 if __name__ == '__main__':

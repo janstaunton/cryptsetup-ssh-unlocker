@@ -22,7 +22,9 @@ Other possible security implications and solutions how to prevent them are beyon
 
 ## Requirements
 
-Python 3.5 and higher is required for the installation, because the async/await syntax is used.
+Python 3.5 and higher is required for the installation, because the async/await syntax is used.  3.5 may not be enough I've not tested this with versions earlier than 3.12.
+
+The provided `Dockerfile` is built on top of `python:3.14-alpine`.
 
 ## Installation and running
 

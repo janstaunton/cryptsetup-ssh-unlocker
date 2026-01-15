@@ -14,23 +14,10 @@ class TCPHandshakeProtocol(asyncio.Protocol):
 class ServerUnlocker:
     def __init__(self, servers):
         self.servers = servers
-        self.tasks = asyncio.gather(
-            *(self.unlock_server(config) for config in self.servers)
-        )
-        self.loop = asyncio.get_event_loop()
 
-    def run_forever(self):
-        try:
-            self.loop.run_until_complete(self.tasks)
-        except KeyboardInterrupt:
-            try:
-                self.tasks.cancel()
-                self.loop.run_until_complete(self.tasks)
-                self.tasks.exception()
-            except asyncio.CancelledError:
-                pass
-        finally:
-            self.loop.close()
+    async def run(self):
+        tasks = [self.unlock_server(config) for config in self.servers]
+        await asyncio.gather(*tasks)
 
     async def ssh_unlock(self, ssh_options, passphrase, server_name):
         log.debug('SSH connecting', extra={'server': server_name})
@@ -48,7 +35,8 @@ class ServerUnlocker:
         log.info('Starting unlocker loop', extra={'server': config.name})
         while True:
             try:
-                await asyncio.wait_for(self.loop.create_connection(TCPHandshakeProtocol, host, port), timeout=config.getint('connect_timeout', 10))
+                loop = asyncio.get_running_loop()
+                await asyncio.wait_for(loop.create_connection(TCPHandshakeProtocol, host, port), timeout=config.getint('connect_timeout', 10))
 
                 ssh_options = {
                     'host': host,
