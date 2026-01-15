@@ -15,10 +15,7 @@ COPY requirements.txt .
 
 # Install build dependencies, install pip packages, then remove build dependencies
 # cryptography often needs rust/cargo to build on alpine if no wheel is available
-RUN apk add --no-cache --virtual .build-deps \
-    openssl-dev python3-dev gcc libc-dev cargo rust && \
-    python -m pip install -r requirements.txt && \
-    apk del .build-deps
+RUN python -m pip install -r requirements.txt
 
 WORKDIR /app
 COPY . /app
