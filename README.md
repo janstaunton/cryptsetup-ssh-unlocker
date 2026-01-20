@@ -193,3 +193,48 @@ $ sudo update-initramfs -u
 
 # License
 This software is licensed under MIT license.
+
+# Development
+
+This project uses modern Python tooling.
+
+## Prerequisites
+
+- [uv](https://github.com/astral-sh/uv)
+- [podman](https://podman.io/) (optional, for container build)
+- [Make](https://www.gnu.org/software/make/)
+
+## Common Tasks
+
+The project includes a `Makefile` to simplify common development tasks.
+
+### Testing
+
+To run the full test suite with coverage:
+
+```bash
+make test
+```
+
+### Linting and Type Checking
+
+To run code linting (ruff) and type checking (pyright):
+
+```bash
+make lint
+```
+
+### Formatting
+
+To automatically format the code:
+
+```bash
+make format
+```
+### Building
+
+To build the container image using Podman:
+
+```bash
+make build
+```

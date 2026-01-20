@@ -1,0 +1,14 @@
+.git
+.woodpecker
+Dockerfile
+task.md
+implementation_plan.md
+walkthrough.md
+*.test
+__pycache__
+*.pyc
+*.pyo
+.venv
+.pytest_cache
+.ruff_cache
+.mypy_cache
